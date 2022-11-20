@@ -1,13 +1,16 @@
 from flask import Flask, make_response, request, jsonify
 from flask_mongoengine import MongoEngine
 from flask_cors import CORS
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 
 database_name = "API"
-DB_URI = "mongodb+srv://LTPANGELOSSE:181661eG@ltpdb01.h7bqfoh.mongodb.net/API?retryWrites=true&w=majority"
+DB_URI = os.getenv("MONGO_URL")
 app.config["MONGODB_HOST"] = DB_URI
 
 db = MongoEngine()
