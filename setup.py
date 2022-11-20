@@ -1,7 +1,10 @@
 from flask import Flask, make_response, request, jsonify
 from flask_mongoengine import MongoEngine
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+CORS(app)
 
 database_name = "API"
 DB_URI = "mongodb+srv://LTPANGELOSSE:181661eG@ltpdb01.h7bqfoh.mongodb.net/API?retryWrites=true&w=majority"
@@ -15,21 +18,23 @@ class Book(db.Document):
     book_id = db.IntField()
     name = db.StringField()
     author = db.StringField()
+    description = db.StringField()
 
     def to_json(self):
         #converts this document to JSON
         return {
             "book_id": self.book_id,
             "name": self.name,
-            "author": self.author
+            "author": self.author,
+            "description": self.description
         }
 
 # Esta rota cria os livros dentro do db
 
 @app.route('/api/db_populate', methods=['POST'])
 def db_populate():
-    book1 = Book(book_id=4, name="Harry Potter", author="J. K. Rowling")
-    book2 = Book(book_id=5, name="DOM QUIXOTE", author="Miguel de Cervantes")
+    book1 = Book(book_id=4, name="Harry Potter", author="J. K. Rowling", description="teste")
+    book2 = Book(book_id=5, name="DOM QUIXOTE", author="Miguel de Cervantes", description="teste")
   
 
     book1.save()
